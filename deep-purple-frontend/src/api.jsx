@@ -1,10 +1,9 @@
 import axios from "axios";
 
-const API_URL = "https://backend.purpleproj.click/communications";
-const API_BASE_URL = "https://backend.purpleproj.click/emotion";
-const API_MOD_URL = "https://backend.purpleproj.click/models";
-const API_ADMIN_URL = "https://backend.purpleproj.click/admin";
-const API_USER_URL = "https://backend.purpleproj.click/users";
+const API_BASE_URL = "https://purpleproj.click/emotion";
+const API_MOD_URL = "https://purpleproj.click/models";
+const API_ADMIN_URL = "https://purpleproj.click/admin";
+const API_USER_URL = "https://purpleproj.click/users";
 
 // Category Functions
 export const createCategory = (modelId, name) =>

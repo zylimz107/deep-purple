@@ -65,23 +65,23 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
                 formData.append('file', file); // Append the file
                 formData.append('modelName', modelName); // Append the model name
     
-                res = await axios.post('https://backend.purpleproj.click/communications/upload', formData, {
+                res = await axios.post('https://purpleproj.click/communications/upload', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
             } else if (operation === 'save') {
-                res = await axios.post('https://backend.purpleproj.click/communications', dataToSend);
+                res = await axios.post('https://purpleproj.click/communications', dataToSend);
             } else if (operation === 'update') {
-                res = await axios.put(`https://backend.purpleproj.click/communications/${id}`, dataToSend);
+                res = await axios.put(`https://purpleproj.click/communications/${id}`, dataToSend);
             } else if (operation === 'delete') {
-                await axios.delete(`https://backend.purpleproj.click/communications/${id}`);
+                await axios.delete(`https://purpleproj.click/communications/${id}`);
                 setDeleteNotification(`Communication with ID ${id} has been deleted.`);
                 setContent('');
                 setId('');
                 return;
             } else if (operation === 'get') {
-                res = await axios.get(`https://backend.purpleproj.click/communications/${id}`);
+                res = await axios.get(`https://purpleproj.click/communications/${id}`);
                 if (res.data) setFetchedData(res.data);
                 return;
             }
@@ -100,7 +100,7 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
         clearNotification();
         clearResponse();
         try {
-            const res = await axios.get('https://backend.purpleproj.click/communications');
+            const res = await axios.get('https://purpleproj.click/communications');
             setAllCommunications(res.data);
         } catch (error) {
             setResponse({ error: error.message });
