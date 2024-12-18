@@ -8,7 +8,7 @@ const UserDashboard = () => {
 
     const handleGetAll = async () => {
         try {
-            const res = await axios.get("https://m5iqrefzne.execute-api.ap-southeast-1.amazonaws.com/prod/communications");
+            const res = await axios.get("https://backend.purpleproj.click/communications");
             const data = res.data;
 
             // Process data here (as shown earlier)
