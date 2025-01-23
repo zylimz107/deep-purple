@@ -20,7 +20,11 @@ function App() {
     const clientId = "2flkekbciug2qi1uockcmi16d2"; // Replace with your actual App Client ID
     const logoutUri = "https://app.purpleproj.click"; // Replace with your app's logout redirect URI
     const cognitoDomain = "https://ap-southeast-1ijzndsfnv.auth.ap-southeast-1.amazoncognito.com"; // Replace with your Cognito domain
-    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+
+    // Redirect to Cognito logout and then navigate to the Landing Page
+    auth.removeUser().then(() => {
+      window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+    });
   };
 
   if (auth.isLoading) {
@@ -38,7 +42,7 @@ function App() {
         <Button variant="default" onClick={() => auth.signinRedirect()}>
           Sign in or Register
         </Button>
-        <LandingPage/>
+        <LandingPage />
       </div>
     );
   }
@@ -57,13 +61,14 @@ function App() {
       <Routes>
         {/* Public Route */}
         <Route path="/" element={<LandingPage />} />
+
         {/* Authenticated Routes */}
         <Route
           path="/*"
           element={
             <Layout>
               <Routes>
-              <Route path="/" element={<Navigate to="/analysis" />} /> {/* Default redirect inside Layout */}
+                <Route path="/" element={<Navigate to="/analysis" />} /> {/* Default redirect inside Layout */}
                 <Route path="analysis" element={<AnalysisPage />} />
                 <Route path="inbox" element={<InboxPage />} />
                 <Route path="search" element={<SearchPage />} />
@@ -80,3 +85,4 @@ function App() {
 }
 
 export default App;
+
