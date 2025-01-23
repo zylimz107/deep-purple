@@ -15,52 +15,37 @@ import { Link } from "react-router-dom"; // Import Link for navigation
 const items = [
   {
     title: "Home",
-    url: "/admin",
-    icon: Users,
-    roles: ["admin"], // Accessible only by admins
-  },
-  {
-    title: "Home",
     url: "/user",
     icon: User,
-    roles: ["user"], // Accessible only by users
   },
   {
     title: "Inbox",
     url: "/inbox",
     icon: Inbox,
-    roles: ["admin", "user"],
   },
   {
     title: "Emotion Model Manager",
     url: "/emotion",
     icon: Activity,
-    roles: ["user"], // Accessible only by users
   },
   {
     title: "Search",
     url: "/search",
     icon: Search,
-    roles: ["admin", "user"],
   },
   {
     title: "Settings",
     url: "/settings",
     icon: Settings,
-    roles: ["admin", "user"],
   },
   {
     title: "Analysis",
     url: "/analysis",
     icon: FileChartPie,
-    roles: ["user"], // Accessible only by users
   },
 ];
 
-export function AppSidebar({ userRole }: { userRole: string | null }) {
-  // Filter items based on the userRole
-  const filteredItems = items.filter((item) => item.roles.includes(userRole || ""));
-
+export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
@@ -68,7 +53,7 @@ export function AppSidebar({ userRole }: { userRole: string | null }) {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {filteredItems.map((item) => (
+              {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link to={item.url}>
