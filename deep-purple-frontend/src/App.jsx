@@ -1,105 +1,83 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
-import LoginRegister from "@/components/LoginPage/Login";
-import Layout from "@/components/layout";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "react-oidc-context";
+import { Button } from "@/components/ui/button"; // ShadCN Button
+import { LogOut } from "lucide-react"; // For the Logout Icon
+
+import LandingPage from "@/pages/LandingPage";
+import AnalysisPage from "@/pages/AnalysisPage";
+import InboxPage from "@/pages/InboxPage";
+import SearchPage from "@/pages/SearchPage";
+import SettingsPage from "@/pages/SettingsPage";
+import EmotionCategoryPage from "@/pages/EmotionCategoryPage";
 import AdminDashboardPage from "@/pages/AdminDashboardPage";
 import UserDashboard from "@/pages/UserDashboard";
-import EmotionCategoryPage from "@/pages/EmotionCategoryPage";
-import AnalysisPage from "@/pages/AnalysisPage";
-import SettingsPage from "@/pages/SettingsPage";
-import SearchPage from "@/pages/SearchPage";
-import InboxPage from "@/pages/InboxPage";
-import LandingPage from "@/pages/LandingPage";
-import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
+import Layout from "@/components/layout";
 
-const App = () => {
-  const [userRole, setUserRole] = useState(() => localStorage.getItem("userRole") || null);
+function App() {
+  const auth = useAuth();
 
-  const handleLogin = (role) => {
-    setUserRole(role);
-    localStorage.setItem("userRole", role);
+  const signOutRedirect = () => {
+    const clientId = "2flkekbciug2qi1uockcmi16d2"; // Replace with your actual App Client ID
+    const logoutUri = "http://localhost:3000"; // Replace with your app's logout redirect URI
+    const cognitoDomain = "https://ap-southeast-1ijzndsfnv.auth.ap-southeast-1.amazoncognito.com"; // Replace with your Cognito domain
+    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
   };
 
-  const handleLogout = () => {
-    setUserRole(null);
-    localStorage.removeItem("userRole");
-    window.location.href = "/";
-  };
+  if (auth.isLoading) {
+    return <div>Loading...</div>;
+  }
 
-  const ProtectedRoute = ({ element, allowedRoles }) => {
-    return allowedRoles.includes(userRole) ? element : <Navigate to="/" />;
-  };
+  if (auth.error) {
+    return <div>Error: {auth.error.message}</div>;
+  }
+
+  if (!auth.isAuthenticated) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <h1 className="text-2xl font-semibold mb-4">Welcome to Your App</h1>
+        <Button variant="default" onClick={() => auth.signinRedirect()}>
+          Sign in
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <Router>
-      {!userRole && <LoginRegister onLogin={handleLogin} />}
-
-      {/* Show Logout Button if logged in */}
-      {userRole && (
-        <Button className="text-center" onClick={handleLogout} style={{ position: "absolute", top: 10, right: 10 }}>
-          <LogOut /> Logout
-        </Button>
-      )}
+      {/* Logout Button */}
+      <Button
+        onClick={signOutRedirect}
+        className="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white"
+      >
+        <LogOut className="mr-2" />
+        Logout
+      </Button>
 
       <Routes>
         {/* Public Route */}
         <Route path="/" element={<LandingPage />} />
 
-        {/* Shared Authenticated Routes */}
-        {userRole && (
-          <Route
-            path="/*"
-            element={
-              <Layout userRole={userRole}>
-                <Routes>
-                  <Route path="analysis" element={<AnalysisPage />} />
-                  <Route path="inbox" element={<InboxPage />} />
-                  <Route path="search" element={<SearchPage />} />
-                  <Route path="settings" element={<SettingsPage />} />
-                  <Route path="emotion" element={<EmotionCategoryPage />} />
-                </Routes>
-              </Layout>
-            }
-          />
-        )}
-
-        {/* Admin Routes */}
+        {/* Authenticated Routes */}
         <Route
-          path="/admin/*"
+          path="/*"
           element={
-            <ProtectedRoute
-              allowedRoles={["admin"]}
-              element={
-                <Layout userRole={userRole}>
-                  <Routes>
-                    <Route path="/" element={<AdminDashboardPage />} />
-                  </Routes>
-                </Layout>
-              }
-            />
-          }
-        />
-
-        {/* User Routes */}
-        <Route
-          path="/user/*"
-          element={
-            <ProtectedRoute
-              allowedRoles={["user"]}
-              element={
-                <Layout userRole={userRole}>
-                  <Routes>
-                    <Route path="/" element={<UserDashboard />} />
-                  </Routes>
-                </Layout>
-              }
-            />
+            <Layout>
+              <Routes>
+                <Route path="analysis" element={<AnalysisPage />} />
+                <Route path="inbox" element={<InboxPage />} />
+                <Route path="search" element={<SearchPage />} />
+                <Route path="settings" element={<SettingsPage />} />
+                <Route path="emotion" element={<EmotionCategoryPage />} />
+                <Route path="admin" element={<AdminDashboardPage />} />
+                <Route path="user" element={<UserDashboard />} />
+              </Routes>
+            </Layout>
           }
         />
       </Routes>
     </Router>
   );
-};
+}
 
 export default App;
