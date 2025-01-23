@@ -19,7 +19,7 @@ function App() {
 
   const signOutRedirect = () => {
     const clientId = "2flkekbciug2qi1uockcmi16d2"; // Replace with your actual App Client ID
-    const logoutUri = "http://localhost:3000"; // Replace with your app's logout redirect URI
+    const logoutUri = "http://app.purpleproj.click"; // Replace with your app's logout redirect URI
     const cognitoDomain = "https://ap-southeast-1ijzndsfnv.auth.ap-southeast-1.amazoncognito.com"; // Replace with your Cognito domain
     window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
   };
@@ -56,7 +56,7 @@ function App() {
 
       <Routes>
         {/* Public Route */}
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<UserDashboard />} />
 
         {/* Authenticated Routes */}
         <Route
