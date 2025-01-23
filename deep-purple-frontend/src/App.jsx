@@ -38,6 +38,7 @@ function App() {
         <Button variant="default" onClick={() => auth.signinRedirect()}>
           Sign in or Register
         </Button>
+        <LandingPage/>
       </div>
     );
   }
@@ -54,15 +55,13 @@ function App() {
       </Button>
 
       <Routes>
-        {/* Public Route */}
-        <Route path="/" element={<LandingPage />} />
-
         {/* Authenticated Routes */}
         <Route
           path="/*"
           element={
             <Layout>
               <Routes>
+              <Route path="/" element={<Navigate to="/analysis" />} /> {/* Default redirect inside Layout */}
                 <Route path="analysis" element={<AnalysisPage />} />
                 <Route path="inbox" element={<InboxPage />} />
                 <Route path="search" element={<SearchPage />} />
