@@ -55,6 +55,8 @@ function App() {
       </Button>
 
       <Routes>
+        {/* Public Route */}
+        <Route path="/" element={<LandingPage />} />
         {/* Authenticated Routes */}
         <Route
           path="/*"
