@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import VisualizationDashboard from "@/components/VisualizationDashboard";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
+import { getAllCommunications } from "@/api";
 
 const UserDashboard = () => {
     const [communicationsData, setCommunicationsData] = useState(null);
 
     const handleGetAll = async () => {
         try {
-            const res = await axios.get("https://purpleproj.click/communications");
+            const res = await getAllCommunications();
             const data = res.data;
 
             // Process data here (as shown earlier)

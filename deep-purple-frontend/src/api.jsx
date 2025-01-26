@@ -1,10 +1,12 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://purpleproj.click/emotion";
-const API_MOD_URL = "https://purpleproj.click/models";
-const API_ADMIN_URL = "https://purpleproj.click/admin";
-const API_USER_URL = "https://purpleproj.click/users";
+// const API_BASE_URL = "https://purpleproj.click/emotion";
+// const API_MOD_URL = "https://purpleproj.click/models";
+// const API_COM_URL = "https://purpleproj.click/communication";
 
+const API_BASE_URL = "http://localhost:8080/emotion";
+const API_MOD_URL = "http://localhost:8080/models";
+const API_COM_URL = "http://localhost:8080/communication";
 // Category Functions
 export const createCategory = (modelId, name) =>
   axios.post(`${API_BASE_URL}/category`, null, { params: { modelId, name } });
@@ -27,26 +29,6 @@ export const createModel = (name) =>
 export const deleteModel = (id) =>
   axios.delete(`${API_MOD_URL}/${id}`);
 
-// User Authentication Functions
-export const loginUser = (username, password) =>
-  axios.post(`${API_USER_URL}/login`, { username, password });
-
-export const registerUser = (username, password) =>
-  axios.post(`${API_USER_URL}/register`, { username, password });
-
-// Admin User Management Functions
-export const createUser = (username, password, role) =>
-  axios.post(`${API_ADMIN_URL}/create`, { username, password, role });
-
-export const getAllUsers = () => axios.get(API_ADMIN_URL);
-
-export const getUserByID = (id) => axios.get(`${API_ADMIN_URL}/${id}`)
-
-export const updateUser = (id, updatedUser) =>
-  axios.put(`${API_ADMIN_URL}/${id}`, updatedUser);
-
-export const deleteUser = (id) =>
-  axios.delete(`${API_ADMIN_URL}/${id}`);
 
 export const getAssociationsForModel = async (modelId) => {
   return await axios.get(`${API_BASE_URL}/word-associations/${modelId}`);
@@ -57,3 +39,30 @@ export const createAssociation = (word, emotionCategoryId) =>
     params: { word, emotionCategoryId },
   });
 export const deleteAssociation = (id) => axios.delete(`${API_BASE_URL}/word-association/${id}`);
+
+export const saveCommunication = (data) => {
+  return axios.post(API_COM_URL, data);
+};
+
+export const updateCommunication = (id, data) => {
+  return axios.put(`${API_COM_URL}/${id}`, data);
+};
+
+export const deleteCommunication = (id) => {
+  return axios.delete(`${API_COM_URL}/${id}`);
+};
+
+export const getAllCommunications = () => {
+  return axios.get(API_COM_URL);
+};
+export const uploadFile = (file, modelName) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('modelName', modelName);
+
+  return axios.post(`${API_COM_URL}/upload`, formData, {
+      headers: {
+          'Content-Type': 'multipart/form-data',
+      },
+  });
+};

@@ -19,6 +19,13 @@ import {
     AlertDescription,
 } from "@/components/ui/alert";
 import { getAllModels } from "@/api";
+import {
+    uploadFile,
+    saveCommunication,
+    updateCommunication,
+    deleteCommunication,
+    getAllCommunications,
+} from "@/api";
 
 const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotification, clearNotification, clearResponse }) => {
     const [content, setContent] = useState('');
@@ -54,33 +61,25 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
     
         try {
             let res;
+    
             const dataToSend = { content, modelName };
     
-            // If the operation is "upload", create FormData and append the file along with modelName and classificationType
             if (operation === 'upload') {
-                const formData = new FormData();
-                formData.append('file', file); // Append the file
-                formData.append('modelName', modelName); // Append the model name
-    
-                res = await axios.post('https://purpleproj.click/communications/upload', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                });
+                res = await uploadFile(file, modelName);
             } else if (operation === 'save') {
-                res = await axios.post('https://purpleproj.click/communications', dataToSend);
+                res = await saveCommunication(dataToSend);
             } else if (operation === 'update') {
-                res = await axios.put(`https://purpleproj.click/communications/${id}`, dataToSend);
+                res = await updateCommunication(id, dataToSend);
             } else if (operation === 'delete') {
-                await axios.delete(`https://purpleproj.click/communications/${id}`);
+                await deleteCommunication(id);
                 setDeleteNotification(`Communication with ID ${id} has been deleted.`);
                 setContent('');
                 setId('');
                 return;
             }
     
-            setResponse(res.data);
-            if (operation === 'save' || operation === 'update' || operation === 'upload') {
+            setResponse(res?.data);
+            if (['save', 'update', 'upload'].includes(operation)) {
                 setContent('');
                 setId('');
             }
@@ -88,12 +87,12 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
             setResponse({ error: error.message });
         }
     };
-
+    
     const handleGetAll = async () => {
         clearNotification();
         clearResponse();
         try {
-            const res = await axios.get('https://purpleproj.click/communications');
+            const res = await getAllCommunications();
             setAllCommunications(res.data);
         } catch (error) {
             setResponse({ error: error.message });
