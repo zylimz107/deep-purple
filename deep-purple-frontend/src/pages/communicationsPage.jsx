@@ -3,13 +3,14 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { getAllCommunications, deleteCommunication } from "@/api";
 
 const CommunicationsPage = () => {
     const [communications, setCommunications] = useState([]);
     const [deleteNotification, setDeleteNotification] = useState('');
     const [idToDelete, setIdToDelete] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10; // Change as needed
 
     useEffect(() => {
         const fetchCommunications = async () => {
@@ -33,6 +34,12 @@ const CommunicationsPage = () => {
             console.error("Error deleting communication:", error);
         }
     };
+
+     // Pagination logic
+    const totalPages = Math.ceil(communications.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const displayedCommunications = communications.slice(startIndex, startIndex + itemsPerPage);
+    
 
     return (
         <div className="p-5">
@@ -66,29 +73,39 @@ const CommunicationsPage = () => {
             </Card>
 
             {/* List of All Communications */}
-            {communications.length > 0 ? (
-                communications.map((comm) => (
-                    <Card key={comm.id} className="mb-5 p-4">
-                        <div><strong>ID:</strong> {comm.id}</div>
-                        <div><strong>Content:</strong> {comm.content}</div>
-                        <div><strong>Primary Emotion:</strong> {comm.primaryEmotion.emotion}</div>
-                        <div><strong>Secondary Emotions:</strong>
-                            {Array.isArray(comm.secondaryEmotions) && comm.secondaryEmotions.length > 0 ? (
-                                <ul>
-                                    {comm.secondaryEmotions.map((secEmotion, index) => (
-                                        <li key={index}>{secEmotion.emotion}</li>
-                                    ))}
-                                </ul>
-                            ) : 'No secondary emotions available'}
-                        </div>
-                        <div><strong>Model:</strong> {comm.modelName}</div>
-                        <div><strong>AI Model Version:</strong> {comm.modelVersion}</div>
-                        <div><strong>Confidence Rating:</strong> {comm.confidenceRating}</div>
-                        <div><strong>Timestamp:</strong> {new Date(comm.timestamp).toLocaleString()}</div>
-                    </Card>
-                ))
+            {displayedCommunications.length > 0 ? (
+                <Card className="mb-5 p-4">
+                    <ul>
+                        {displayedCommunications.map((comm) => (
+                            <li key={comm.id} className="mb-5 p-3 border border-gray-300 rounded">
+                                <div><strong>ID:</strong> {comm.id}</div>
+                                <div><strong>Content:</strong> {comm.content}</div>
+                                <div><strong>Primary Emotion:</strong> {comm.primaryEmotion.emotion} ({comm.primaryEmotion.percentage}%)</div>
+                                <div><strong>Model:</strong> {comm.modelName}</div>
+                                <div><strong>Timestamp:</strong> {new Date(comm.timestamp).toLocaleString()}</div>
+                            </li>
+                        ))}
+                    </ul>
+
+                    {/* Pagination Controls */}
+                    <div className="flex justify-between mt-4">
+                        <Button 
+                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                        >
+                            Previous
+                        </Button>
+                        <span>Page {currentPage} of {totalPages}</span>
+                        <Button 
+                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                        >
+                            Next
+                        </Button>
+                    </div>
+                </Card>
             ) : (
-                <p>No communications found.</p>
+                <p>No communications available.</p>
             )}
         </div>
     );

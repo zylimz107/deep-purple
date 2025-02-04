@@ -1,4 +1,4 @@
-import { FileChartPie, Home, Inbox, Search, Settings, Users, Activity, User } from "lucide-react";
+import { FileChartPie, Home, Inbox, Search, Settings, Archive, Activity, User } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -31,7 +31,7 @@ const items = [
   {
     title: "Records",
     url: "/communications",
-    icon: Search,
+    icon: Archive,
   },
   {
     title: "Settings",
