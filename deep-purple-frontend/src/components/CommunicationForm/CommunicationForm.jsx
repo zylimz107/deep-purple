@@ -22,14 +22,11 @@ import { getAllModels } from "@/api";
 import {
     uploadFile,
     saveCommunication,
-    deleteCommunication,
-    getAllCommunications,
 } from "@/api";
 
 const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotification, clearNotification, clearResponse }) => {
     const [content, setContent] = useState('');
     const [operation, setOperation] = useState('');
-    const [id, setId] = useState('');
     const [modelName, setModelName] = useState('');
     const [file, setFile] = useState(null); // State for the uploaded file
     const [models, setModels] = useState([]);
@@ -54,9 +51,7 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        clearNotification();
         clearResponse();
-        setAllCommunications([]);
     
         try {
             let res;
@@ -67,30 +62,13 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
                 res = await uploadFile(file, modelName);
             } else if (operation === 'save') {
                 res = await saveCommunication(dataToSend);
-            } else if (operation === 'delete') {
-                await deleteCommunication(id);
-                setDeleteNotification(`Communication with ID ${id} has been deleted.`);
-                setContent('');
-                setId('');
                 return;
             }
     
             setResponse(res?.data);
-            if (['save', 'update', 'upload'].includes(operation)) {
+            if (['save', 'upload'].includes(operation)) {
                 setContent('');
-                setId('');
             }
-        } catch (error) {
-            setResponse({ error: error.message });
-        }
-    };
-    
-    const handleGetAll = async () => {
-        clearNotification();
-        clearResponse();
-        try {
-            const res = await getAllCommunications();
-            setAllCommunications(res.data);
         } catch (error) {
             setResponse({ error: error.message });
         }
@@ -100,8 +78,6 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
         switch (operation) {
           case "save":
             return "Analyze the content and save the analysis.";
-          case "delete":
-            return "Delete analysis data by ID.";
           case "upload":
             return "Upload a file for analysis.";
           default:
@@ -140,7 +116,6 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
                             <SelectContent>
                                 <SelectGroup>
                                     <SelectItem value="save">Save</SelectItem>
-                                    <SelectItem value="delete">Delete</SelectItem>
                                     <SelectItem value="upload">Upload File</SelectItem> {/* New Upload option */}
                                 </SelectGroup>
                             </SelectContent>
@@ -194,30 +169,11 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
                     </Select>
                     </div>
 
-                    {operation !== 'upload' && operation !== 'save' && (
-                        <div>
-                            <Label htmlFor="id">ID</Label>
-                            <Input
-                                id="id"
-                                type="number"
-                                value={id}
-                                onChange={(e) => setId(e.target.value)}
-                                placeholder="Enter communication ID"
-                                required={operation !== 'delete'}
-                                className="w-[500px]"
-                            />
-                        </div>
-                    )}
-
                     <Separator className="w-[500px] my-4" />
                     <Button type="submit" className="w-[500px]">
                         Submit
                     </Button>
                 </form>
-
-                <Button onClick={handleGetAll} className="w-[500px] mt-4">
-                    Get All Communications
-                </Button>
                 <Separator className="my-4" />
             </CardContent>
         </Card>

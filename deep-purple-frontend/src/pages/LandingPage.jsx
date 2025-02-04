@@ -1,27 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Card } from "@/components/ui/card";
 import CommunicationForm from "@/components/CommunicationForm/CommunicationForm";
 import { Pie, PieChart, Tooltip } from "recharts"; // Import necessary parts of recharts
 
 const LandingPage = () => {
   const [response, setResponse] = useState(null);
-  const [allCommunications, setAllCommunications] = useState([]);
-  const [deleteNotification, setDeleteNotification] = useState('');
-
-  const clearNotification = useCallback(() => {
-    setDeleteNotification('');
-  }, []);
 
   const clearResponse = useCallback(() => {
     setResponse(null);
   }, []);
-
-  useEffect(() => {
-    if (deleteNotification) {
-      const timer = setTimeout(clearNotification, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [deleteNotification]);
 
   // Prepare pie chart data from response
   const pieChartData = response ? [
@@ -43,9 +30,6 @@ const LandingPage = () => {
       <h1 className="text-3xl font-bold mb-4">Deep Purple Analysis</h1>
       <CommunicationForm
         setResponse={setResponse}
-        setAllCommunications={setAllCommunications}
-        setDeleteNotification={setDeleteNotification}
-        clearNotification={clearNotification}
         clearResponse={clearResponse}
       />
 
@@ -95,39 +79,6 @@ const LandingPage = () => {
             </>
           )}
         </Card>
-      )}
-
-      {allCommunications.length > 0 && (
-        <Card className="mb-5">
-          <h2 className="text-2xl font-semibold">All Communications:</h2>
-          <ul>
-            {allCommunications.map((comm) => (
-              <li key={comm.id} className="mb-5 p-3 border border-gray-300 rounded">
-                <div><strong>ID:</strong> {comm.id}</div>
-                <div><strong>Content:</strong> {comm.content}</div>
-                <div><strong>Primary Emotion:</strong> {comm.primaryEmotion.emotion} ({comm.primaryEmotion.percentage}%)</div>
-                <div><strong>Secondary Emotions:</strong>
-                  {Array.isArray(comm.secondaryEmotions) && comm.secondaryEmotions.length > 0 ? (
-                    <ul>
-                      {comm.secondaryEmotions.map((secEmotion, index) => (
-                        <li key={index}>{secEmotion.emotion} ({secEmotion.percentage}%)</li>
-                      ))}
-                    </ul>
-                  ) : <p>No secondary emotions available</p>}
-                </div>
-                <div><strong>Model:</strong> {comm.modelName}</div>
-                <div><strong>AI Model Version:</strong> {comm.modelVersion}</div>
-                <div><strong>Confidence Rating:</strong> {comm.confidenceRating}</div>
-                <div><strong>Summary:</strong> {comm.summary}</div>
-                <div><strong>Timestamp:</strong> {new Date(comm.timestamp).toLocaleString()}</div>
-              </li>
-            ))}
-          </ul>
-        </Card>
-      )}
-
-      {deleteNotification && (
-        <div className="text-green-500 mt-2">{deleteNotification}</div>
       )}
     </div>
   );
