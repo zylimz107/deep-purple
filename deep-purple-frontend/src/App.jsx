@@ -12,6 +12,7 @@ import SettingsPage from "@/pages/SettingsPage";
 import EmotionCategoryPage from "@/pages/EmotionCategoryPage";
 import UserDashboard from "@/pages/UserDashboard";
 import Layout from "@/components/layout";
+import CommunicationsPage from "./pages/communicationsPage";
 
 function App() {
   const auth = useAuth();
@@ -68,7 +69,7 @@ function App() {
                 <Route path="/" element={<Navigate to="/analysis" />} /> {/* Default redirect inside Layout */}
                 <Route path="analysis" element={<AnalysisPage />} />
                 <Route path="inbox" element={<InboxPage />} />
-                <Route path="search" element={<SearchPage />} />
+                <Route path="communications" element={<CommunicationsPage />} />
                 <Route path="settings" element={<SettingsPage />} />
                 <Route path="emotion" element={<EmotionCategoryPage />} />
                 <Route path="user" element={<UserDashboard />} />

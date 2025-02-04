@@ -29,8 +29,8 @@ const items = [
     icon: Activity,
   },
   {
-    title: "Search",
-    url: "/search",
+    title: "Records",
+    url: "/communications",
     icon: Search,
   },
   {
