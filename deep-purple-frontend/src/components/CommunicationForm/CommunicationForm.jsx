@@ -22,7 +22,6 @@ import { getAllModels } from "@/api";
 import {
     uploadFile,
     saveCommunication,
-    updateCommunication,
     deleteCommunication,
     getAllCommunications,
 } from "@/api";
@@ -68,8 +67,6 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
                 res = await uploadFile(file, modelName);
             } else if (operation === 'save') {
                 res = await saveCommunication(dataToSend);
-            } else if (operation === 'update') {
-                res = await updateCommunication(id, dataToSend);
             } else if (operation === 'delete') {
                 await deleteCommunication(id);
                 setDeleteNotification(`Communication with ID ${id} has been deleted.`);
@@ -103,8 +100,6 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
         switch (operation) {
           case "save":
             return "Analyze the content and save the analysis.";
-          case "update":
-            return "Update existing analysis data by ID.";
           case "delete":
             return "Delete analysis data by ID.";
           case "upload":
@@ -126,7 +121,7 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)}
                                 placeholder="Enter communication content"
-                                required={operation === 'save' || operation === 'update'}
+                                required={operation === 'save'}
                                 maxLength={1000}
                             />
                         </div>
@@ -145,7 +140,6 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
                             <SelectContent>
                                 <SelectGroup>
                                     <SelectItem value="save">Save</SelectItem>
-                                    <SelectItem value="update">Update</SelectItem>
                                     <SelectItem value="delete">Delete</SelectItem>
                                     <SelectItem value="upload">Upload File</SelectItem> {/* New Upload option */}
                                 </SelectGroup>

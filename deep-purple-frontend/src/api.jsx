@@ -46,10 +46,6 @@ export const saveCommunication = (data) => {
   return axios.post(API_COM_URL, data);
 };
 
-export const updateCommunication = (id, data) => {
-  return axios.put(`${API_COM_URL}/${id}`, data);
-};
-
 export const deleteCommunication = (id) => {
   return axios.delete(`${API_COM_URL}/${id}`);
 };
