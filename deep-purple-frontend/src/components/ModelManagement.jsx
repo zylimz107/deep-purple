@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getAllModels, createModel, deleteModel } from "@/api";
+import { getAllCustomModels, createModel, deleteModel } from "@/api";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -12,7 +12,7 @@ const ModelManagement = ({ refreshModels }) => {
   // Fetch models from the backend
   const fetchModels = async () => {
     try {
-      const response = await getAllModels();
+      const response = await getAllCustomModels();
       setModels(response.data); // Update the models state
     } catch (error) {
       console.error("Error fetching models:", error);
