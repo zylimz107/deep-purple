@@ -82,6 +82,8 @@ const CommunicationsPage = () => {
                                 <div><strong>Content:</strong> {comm.content}</div>
                                 <div><strong>Primary Emotion:</strong> {comm.primaryEmotion.emotion} ({comm.primaryEmotion.percentage}%)</div>
                                 <div><strong>Model:</strong> {comm.modelName}</div>
+                                <div><strong>AI Model Version:</strong> {comm.modelVersion || 'N/A'}</div>
+                                <div><strong>Confidence Rating:</strong> {comm.confidenceRating || 'N/A'}</div>
                                 <div><strong>Timestamp:</strong> {new Date(comm.timestamp).toLocaleString()}</div>
                             </li>
                         ))}
