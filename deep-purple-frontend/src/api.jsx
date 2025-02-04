@@ -23,6 +23,8 @@ export const deleteCategory = (id) =>
 // Model Functions
 export const getAllModels = () => axios.get(API_MOD_URL);
 
+export const getAllCustomModels = () => axios.get(`${API_MOD_URL}/custom`);
+
 export const createModel = (name) =>
   axios.post(API_MOD_URL, null, { params: { name } });
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ModelManagement from "@/components/ModelManagement";
 import EmotionCategoryManager from "@/components/EmotionCategoryManager/EmotionCategoryManager";
 import WordEmotionManager from "@/components/EmotionCategoryManager/WordEmotionAssociation";
-import { getAllModels } from "@/api";
+import { getAllCustomModels } from "@/api";
 import {
   Select,
   SelectContent,
@@ -20,7 +20,7 @@ const EmotionCategoryPage = () => {
   // Fetch models from the backend
   const fetchModels = async () => {
     try {
-      const response = await getAllModels();
+      const response = await getAllCustomModels();
       console.log("Fetched models:", response.data);
       setModels(response.data);
     } catch (error) {
