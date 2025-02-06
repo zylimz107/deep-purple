@@ -1,14 +1,26 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card } from "@/components/ui/card";
 import CommunicationForm from "@/components/CommunicationForm/CommunicationForm";
 import { Pie, PieChart, Tooltip } from "recharts"; // Import necessary parts of recharts
 
 const AnalysisPage = () => {
   const [response, setResponse] = useState(null);
+  const [deleteNotification, setDeleteNotification] = useState('');
+
+  const clearNotification = useCallback(() => {
+    setDeleteNotification('');
+  }, []);
 
   const clearResponse = useCallback(() => {
     setResponse(null);
   }, []);
+
+  useEffect(() => {
+    if (deleteNotification) {
+      const timer = setTimeout(clearNotification, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [deleteNotification]);
 
   // Prepare pie chart data from response
   const pieChartData = response ? [
@@ -30,6 +42,8 @@ const AnalysisPage = () => {
       <h1 className="text-3xl font-bold mb-4">Deep Purple Analysis</h1>
       <CommunicationForm
         setResponse={setResponse}
+        setDeleteNotification={setDeleteNotification}
+        clearNotification={clearNotification}
         clearResponse={clearResponse}
       />
 
@@ -79,6 +93,10 @@ const AnalysisPage = () => {
             </>
           )}
         </Card>
+      )}
+
+      {deleteNotification && (
+        <div className="text-green-500 mt-2">{deleteNotification}</div>
       )}
     </div>
   );

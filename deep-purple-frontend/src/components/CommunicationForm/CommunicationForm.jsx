@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,74 +14,61 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import {
-    Alert,
-    AlertDescription,
-} from "@/components/ui/alert";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { getAllModels } from "@/api";
-import {
-    uploadFile,
-    saveCommunication,
-} from "@/api";
+import { uploadFile, saveCommunication } from "@/api";
 
-const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotification, clearNotification, clearResponse }) => {
-    const [content, setContent] = useState('');
-    const [operation, setOperation] = useState('');
-    const [modelName, setModelName] = useState('');
-    const [file, setFile] = useState(null); // State for the uploaded file
+const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) => {
+    const [content, setContent] = useState("");
+    const [operation, setOperation] = useState("");
+    const [modelName, setModelName] = useState("");
+    const [file, setFile] = useState(null);
     const [models, setModels] = useState([]);
+    const [errors, setErrors] = useState({});
 
-    const handleFileChange = (e) => {
-        setFile(e.target.files[0]); // Set the file selected by the user
-    };
-
-    const fetchModels = async () => {
-        try {
-          const response = await getAllModels();
-          console.log("Fetched models:", response.data);
-          setModels(response.data);
-        } catch (error) {
-          console.error("Error fetching models:", error);
-        }
-      };
-    
-      useEffect(() => {
+    useEffect(() => {
+        const fetchModels = async () => {
+            try {
+                const response = await getAllModels();
+                setModels(response.data);
+            } catch (error) {
+                console.error("Error fetching models:", error);
+            }
+        };
         fetchModels();
-      }, []);
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        clearNotification();
         clearResponse();
-    
+
+        // Validation
+        let validationErrors = {};
+        if (!operation) validationErrors.operation = "Please select an operation.";
+        if (!modelName) validationErrors.modelName = "Please select a model.";
+        if (operation === "save" && !content) validationErrors.content = "Content is required.";
+        if (operation === "upload" && !file) validationErrors.file = "Please select a file.";
+
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+
         try {
             let res;
-    
             const dataToSend = { content, modelName };
-    
-            if (operation === 'upload') {
+
+            if (operation === "upload") {
                 res = await uploadFile(file, modelName);
-            } else if (operation === 'save') {
+            } else if (operation === "save") {
                 res = await saveCommunication(dataToSend);
-                return;
             }
-    
+
             setResponse(res?.data);
-            if (['save', 'upload'].includes(operation)) {
-                setContent('');
-            }
+            setContent("");
         } catch (error) {
             setResponse({ error: error.message });
-        }
-    };
-
-    const getDescription = (operation) => {
-        switch (operation) {
-          case "save":
-            return "Analyze the content and save the analysis.";
-          case "upload":
-            return "Upload a file for analysis.";
-          default:
-            return "Please select an operation.";
         }
     };
 
@@ -89,7 +76,23 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
         <Card className="p-4">
             <CardContent>
                 <form onSubmit={handleSubmit} className="w-[1000px] space-y-4">
-                    {operation !== 'get' && operation !== 'delete' && (
+                    <div>
+                        <Label htmlFor="operation">Operation</Label>
+                        <Select id="operation" value={operation} onValueChange={setOperation}>
+                            <SelectTrigger className="w-[500px]">
+                                <SelectValue placeholder="Select operation" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectItem value="save">Save</SelectItem>
+                                    <SelectItem value="upload">Upload File</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                        {errors.operation && <p className="text-red-600">{errors.operation}</p>}
+                    </div>
+
+                    {operation === "save" && (
                         <div>
                             <Label htmlFor="content">Content</Label>
                             <Textarea
@@ -97,76 +100,47 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)}
                                 placeholder="Enter communication content"
-                                required={operation === 'save'}
                                 maxLength={1000}
+                                required
                             />
+                            {errors.content && <p className="text-red-600">{errors.content}</p>}
                         </div>
                     )}
 
-                    <div>
-                        <Label htmlFor="operation">Operation</Label>
-                        <Select
-                            id="operation"
-                            value={operation}
-                            onValueChange={setOperation}
-                        >
-                            <SelectTrigger className="w-[500px]">
-                                <SelectValue placeholder="select operation" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value="save">Save</SelectItem>
-                                    <SelectItem value="upload">Upload File</SelectItem> {/* New Upload option */}
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-                        <Separator className="w-[500px] my-2" />
-                        <Alert className="w-[500px] border-purple-800">
-                            <AlertDescription className="text-purple-800">
-                                {getDescription(operation)}
-                            </AlertDescription>
-                        </Alert>
-                    </div>
-
-                    {/* File input field for upload */}
-                    {operation === 'upload' && (
+                    {operation === "upload" && (
                         <div>
                             <Label htmlFor="file">Select File</Label>
-                            <Input
-                                type="file"
-                                id="file"
-                                onChange={handleFileChange}
-                                required
-                            />
+                            <Input type="file" id="file" onChange={(e) => setFile(e.target.files[0])} required />
+                            {errors.file && <p className="text-red-600">{errors.file}</p>}
                         </div>
                     )}
 
                     <div>
                         <Label htmlFor="modelName">Model Name</Label>
-                        <Select
-                        id="modelName"
-                        value={modelName} // The current selected model
-                       onValueChange={(value) => setModelName(value)} // Update modelName when a model is selected
-                         >
-                        <SelectTrigger className="w-[500px]">
-                         <SelectValue placeholder="Select model" />
+                        <Select id="modelName" value={modelName} onValueChange={setModelName}>
+                            <SelectTrigger className="w-[500px]">
+                                <SelectValue placeholder="Select model" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectGroup>
-                               {/* Placeholder option */}
-                                <SelectItem value="placeholder" disabled>Select a model</SelectItem>
-                                {models.length > 0 ? (
-                                  models.map((model) => (
-                                <SelectItem key={model.id} value={model.name}>
-                              {model.name}
-                            </SelectItem>
-                          ))
-                        ) : (
-                          <SelectItem value="loading" disabled>Loading models...</SelectItem> 
-                          )}
-                      </SelectGroup>
-                    </SelectContent>
-                    </Select>
+                                <SelectGroup>
+                                    <SelectItem value="placeholder" disabled>
+                                        Select a model
+                                    </SelectItem>
+                                    {models.length > 0 ? (
+                                        models.map((model) => (
+                                            <SelectItem key={model.id} value={model.name}>
+                                                {model.name}
+                                            </SelectItem>
+                                        ))
+                                    ) : (
+                                        <SelectItem value="loading" disabled>
+                                            Loading models...
+                                        </SelectItem>
+                                    )}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                        {errors.modelName && <p className="text-red-600">{errors.modelName}</p>}
                     </div>
 
                     <Separator className="w-[500px] my-4" />
@@ -174,7 +148,6 @@ const CommunicationForm = ({ setResponse, setAllCommunications, setDeleteNotific
                         Submit
                     </Button>
                 </form>
-                <Separator className="my-4" />
             </CardContent>
         </Card>
     );
