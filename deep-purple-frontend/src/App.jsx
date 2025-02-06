@@ -35,14 +35,17 @@ function App() {
 
   if (!auth.isAuthenticated) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <h1 className="text-2xl font-semibold mb-4">Welcome to DeepPurple</h1>
-        <Button variant="default" onClick={() => auth.signinRedirect()}>
-          Sign in or Register
-        </Button>
+      <div className="w-full h-full bg-[url('@/svg/purpleBG.jpg')] bg-cover flex flex-col items-center justify-center min-h-screen relative">
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2">
+          <Button className="bg-cyan-800 text-slate-200 px-8 py-4 rounded-lg hover:bg-cyan-900 transition text-lg " variant="default" onClick={() => auth.signinRedirect()}>
+            Sign in or Register
+          </Button>
+        </div>
+        <div className="py-20">
         <LandingPage />
+        </div>
       </div>
-    );
+    );    
   }
 
   return (
