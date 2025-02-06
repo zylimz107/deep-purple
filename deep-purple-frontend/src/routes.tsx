@@ -1,7 +1,5 @@
 import React from "react";
 // Import your page components
-import InboxPage from "@/pages/InboxPage";
-import SettingsPage from "@/pages/SettingsPage";
 import AnalysisPage from "@/pages/AnalysisPage";
 import EmotionCategoryPage from "@/pages/EmotionCategoryPage";
 import UserDashboard from "@/pages/UserDashboard";
@@ -19,10 +17,8 @@ interface Route {
 
 // Define your routes
 const routes: Route[] = [
-  { path: "/inbox", component: InboxPage },
   { path: "/emotion", component: EmotionCategoryPage },
   { path: "/communications", component: CommunicationsPage },
-  { path: "/settings", component: SettingsPage },
   { path: "/analysis", component: AnalysisPage},
   { path: "/user", component: UserDashboard},
   { path: "/", component: LandingPage},

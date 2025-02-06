@@ -19,11 +19,6 @@ const items = [
     icon: User,
   },
   {
-    title: "Inbox",
-    url: "/inbox",
-    icon: Inbox,
-  },
-  {
     title: "Emotion Model Manager",
     url: "/emotion",
     icon: Activity,
@@ -32,11 +27,6 @@ const items = [
     title: "Records",
     url: "/communications",
     icon: Archive,
-  },
-  {
-    title: "Settings",
-    url: "/settings",
-    icon: Settings,
   },
   {
     title: "Analysis",

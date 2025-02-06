@@ -68,9 +68,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Navigate to="/analysis" />} /> {/* Default redirect inside Layout */}
                 <Route path="analysis" element={<AnalysisPage />} />
-                <Route path="inbox" element={<InboxPage />} />
                 <Route path="communications" element={<CommunicationsPage />} />
-                <Route path="settings" element={<SettingsPage />} />
                 <Route path="emotion" element={<EmotionCategoryPage />} />
                 <Route path="user" element={<UserDashboard />} />
               </Routes>
