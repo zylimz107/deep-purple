@@ -6,9 +6,6 @@ import { LogOut } from "lucide-react"; // For the Logout Icon
 
 import LandingPage from "@/pages/LandingPage";
 import AnalysisPage from "@/pages/AnalysisPage";
-import InboxPage from "@/pages/InboxPage";
-import SearchPage from "@/pages/SearchPage";
-import SettingsPage from "@/pages/SettingsPage";
 import EmotionCategoryPage from "@/pages/EmotionCategoryPage";
 import UserDashboard from "@/pages/UserDashboard";
 import Layout from "@/components/layout";
