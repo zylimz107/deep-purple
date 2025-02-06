@@ -75,21 +75,6 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
         <Card className="p-4">
             <CardContent>
                 <form onSubmit={handleSubmit} className="w-[1000px] space-y-4">
-                    <div>
-                        <Label htmlFor="operation">Operation</Label>
-                        <Select id="operation" value={operation} onValueChange={setOperation}>
-                            <SelectTrigger className="w-[500px]">
-                                <SelectValue placeholder="Select operation" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value="save">Save</SelectItem>
-                                    <SelectItem value="upload">Upload File</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-                        {errors.operation && <p className="text-red-600">{errors.operation}</p>}
-                    </div>
 
                     {operation === "save" && (
                         <div>
@@ -113,6 +98,22 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
                             {errors.file && <p className="text-red-600">{errors.file}</p>}
                         </div>
                     )}
+
+                    <div>
+                        <Label htmlFor="operation">Operation</Label>
+                        <Select id="operation" value={operation} onValueChange={setOperation}>
+                            <SelectTrigger className="w-[500px]">
+                                <SelectValue placeholder="Select operation" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectItem value="save">Save</SelectItem>
+                                    <SelectItem value="upload">Upload File</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                        {errors.operation && <p className="text-red-600">{errors.operation}</p>}
+                    </div>
 
                     <div>
                         <Label htmlFor="modelName">Model Name</Label>
