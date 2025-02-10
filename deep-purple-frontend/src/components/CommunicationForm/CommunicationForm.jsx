@@ -15,15 +15,18 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getAllModels } from "@/api";
-import { uploadFile, saveCommunication } from "@/api";
+import { uploadFile, saveCommunication, uploadBatchFiles } from "@/api";
 
 const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) => {
     const [content, setContent] = useState("");
     const [operation, setOperation] = useState("");
     const [modelName, setModelName] = useState("");
     const [file, setFile] = useState(null);
+    const [files, setFiles] = useState([]);
     const [models, setModels] = useState([]);
     const [errors, setErrors] = useState({});
+    const [pdfUrl, setPdfUrl] = useState("");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchModels = async () => {
@@ -37,20 +40,27 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
         fetchModels();
     }, []);
 
+    const handleFileChange = (e) => {
+        setFiles([...e.target.files]); // Store multiple files in state
+    };
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         clearNotification();
         clearResponse();
+        setPdfUrl("");
+        setLoading(true);
 
-        // Validation
         let validationErrors = {};
         if (!operation) validationErrors.operation = "Please select an operation.";
         if (!modelName) validationErrors.modelName = "Please select a model.";
         if (operation === "save" && !content) validationErrors.content = "Content is required.";
         if (operation === "upload" && !file) validationErrors.file = "Please select a file.";
+        if (operation === "batch-upload" && files.length === 0) validationErrors.files = "Please select at least one file.";
 
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
+            setLoading(false);
             return;
         }
 
@@ -62,12 +72,34 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
                 res = await uploadFile(file, modelName);
             } else if (operation === "save") {
                 res = await saveCommunication(dataToSend);
-            }
+            } else if (operation === "batch-upload") {
+                const formData = new FormData();
+                files.forEach(file => formData.append("files", file));
+                formData.append("modelName", modelName);
 
-            setResponse(res?.data);
+                res = await uploadBatchFiles(formData);
+            }
+            console.log(res);
+
+        // Check if the response is a PDF (blob) and handle accordingly
+        if (res && res.data && res.data instanceof Blob) {
+            const pdfBlob = res.data;  // The blob response from the server
+
+            // Create a URL for the PDF file
+            const pdfUrl = URL.createObjectURL(pdfBlob);
+            setPdfUrl(pdfUrl);  // Set the URL for downloading the PDF
+            setResponse(null);   // Reset any previous response
+        } else {
+            // Handle non-PDF response (regular data)
+            setResponse(res?.data);  // Set the regular response data
+            setPdfUrl("");  // Ensure PDF URL is cleared if not a PDF
+        }
+            setFiles([]);
             setContent("");
         } catch (error) {
             setResponse({ error: error.message });
+        }   finally {
+            setLoading(false);  // Turn off loading after the request completes
         }
     };
 
@@ -99,6 +131,14 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
                         </div>
                     )}
 
+                    {operation === "batch-upload" && (
+                        <div>
+                            <Label htmlFor="files">Select Files</Label>
+                            <Input type="file" id="files" multiple onChange={handleFileChange} required />
+                            {errors.files && <p className="text-red-600">{errors.files}</p>}
+                        </div>
+                    )}
+
                     <div>
                         <Label htmlFor="operation">Operation</Label>
                         <Select id="operation" value={operation} onValueChange={setOperation}>
@@ -109,6 +149,7 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
                                 <SelectGroup>
                                     <SelectItem value="save">Save</SelectItem>
                                     <SelectItem value="upload">Upload File</SelectItem>
+                                    <SelectItem value="batch-upload">Batch Upload</SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
@@ -147,6 +188,15 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
                     <Button type="submit" className="w-[500px]">
                         Submit
                     </Button>
+
+                    {/* ✅ Download button for PDF */}
+                    {pdfUrl && (
+                        <div className="mt-4">
+                            <a href={pdfUrl} download className="text-blue-600 underline">
+                                Download Processed PDF
+                            </a>
+                        </div>
+                    )}
                 </form>
             </CardContent>
         </Card>
