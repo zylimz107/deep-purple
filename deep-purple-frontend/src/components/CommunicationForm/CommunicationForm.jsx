@@ -32,14 +32,40 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
         const fetchModels = async () => {
             try {
                 const response = await getAllModels();
-                setModels(response.data);
+                console.log("API Full Response:", response);
+    
+                let modelsData = response.data;
+    
+                // Ensure `modelsData` is correctly parsed JSON
+                if (typeof modelsData === "string") {
+                    try {
+                        modelsData = JSON.parse(modelsData);
+                    } catch (error) {
+                        console.error("Error parsing models JSON:", error);
+                        modelsData = [];
+                    }
+                }
+    
+                // Log to check structure
+                console.log("Parsed Models Data:", modelsData);
+    
+                // Ensure modelsData is an array before setting state
+                if (!Array.isArray(modelsData)) {
+                    console.error("Error: modelsData is not an array!", modelsData);
+                    modelsData = []; // Prevent crash
+                }
+    
+                setModels(modelsData);
             } catch (error) {
                 console.error("Error fetching models:", error);
+                setModels([]); // Fallback to empty array
             }
         };
+    
         fetchModels();
     }, []);
-
+    
+    
     const handleFileChange = (e) => {
         setFiles([...e.target.files]); // Store multiple files in state
     };
