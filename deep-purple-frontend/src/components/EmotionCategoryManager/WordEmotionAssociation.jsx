@@ -113,24 +113,27 @@ const WordEmotionManager = ({ selectedModelId }) => {
           </div>
 
           <ul className="bg-slate-100 p-2 rounded divide-y divide-slate-700">
-            {associations.length > 0 ? (
-              associations.map((assoc) => (
-                <li key={assoc.id} className="flex justify-between items-center ">
-                  <span>{assoc.word} - {assoc.emotionCategory.emotion}</span>
-                  <Button
-                    className="my-1"
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => handleDeleteAssociation(assoc.id)}
-                  >
-                    Delete
-                  </Button>
-                </li>
-              ))
-            ) : (
-              <p>No associations available.</p>
-            )}
-          </ul>
+          {associations.length > 0 ? (
+            associations.map((assoc) => (
+              <li key={assoc.id} className="flex justify-between items-center ">
+              <span>
+              {assoc.word} - {assoc.emotionCategory ? assoc.emotionCategory.emotion : 'Unknown Emotion'}
+             </span>
+             <Button
+                className="my-1"
+             variant="destructive"
+             size="sm"
+             onClick={() => handleDeleteAssociation(assoc.id)}
+           >
+          Delete
+        </Button>
+      </li>
+    ))
+  ) : (
+    <p>No associations available.</p>
+  )}
+</ul>
+
         </div>
       </CardContent>
     </Card>
