@@ -19,6 +19,10 @@ const EmotionCategoryManager = ({ selectedModelId , refreshTrigger, onRefresh })
     }
   };
 
+  useEffect(() => {
+    fetchCategories();
+  }, [selectedModelId, refreshTrigger]);
+
   const handleAddCategory = async () => {
     if (!newCategoryName.trim()) {
       alert("Category name cannot be empty!");
@@ -39,15 +43,14 @@ const EmotionCategoryManager = ({ selectedModelId , refreshTrigger, onRefresh })
     if (!window.confirm("Are you sure you want to delete this category?")) return;
       try {
         await deleteCategory(id);
+        fetchCategories();
         onRefresh(); // <== Notify parent to refresh
       } catch (error) {
         console.error("Error deleting category:", error);
       }
     };
 
-  useEffect(() => {
-    fetchCategories();
-  }, [selectedModelId, refreshTrigger]);
+
 
   return (
     <Card className="p-4 shadow-lg">

@@ -54,6 +54,7 @@ const WordEmotionManager = ({ selectedModelId, refreshTrigger, onRefresh }) => {
       await createAssociation(word, selectedCategoryId);
       setWord(""); 
       setSelectedCategoryId(""); 
+      fetchCategories();
       onRefresh(); // <== Notify parent to refresh
     } catch (error) {
       console.error("Error creating association:", error);
@@ -65,6 +66,7 @@ const WordEmotionManager = ({ selectedModelId, refreshTrigger, onRefresh }) => {
     if (!window.confirm("Are you sure you want to delete this association?")) return;
     try {
       await deleteAssociation(id);
+      fetchCategories();
       onRefresh(); // <== Notify parent to refresh
     } catch (error) {
       console.error("Error deleting association:", error);
