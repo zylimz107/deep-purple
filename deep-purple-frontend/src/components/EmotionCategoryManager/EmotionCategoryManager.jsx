@@ -72,8 +72,8 @@ const EmotionCategoryManager = ({ selectedModelId , refreshTrigger, onRefresh })
         </div>
         <ul className="bg-slate-100 p-2 rounded divide-y divide-slate-700">
           {categories.map((category) => (
-            <li key={category.id} className="flex justify-between items-center border p-2 rounded shadow-sm">
-              <strong className="text-lg">{category.emotion}</strong>
+            <li key={category.id} className="flex justify-between items-center">
+              <strong>{category.emotion}</strong>
                 <Button
                   variant="destructive"
                   onClick={() => handleDeleteCategory(category.id)}
