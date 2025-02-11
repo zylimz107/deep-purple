@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 const EmotionCategoryManager = ({ selectedModelId , refreshTrigger, onRefresh }) => {
   const [categories, setCategories] = useState([]);
   const [newCategoryName, setNewCategoryName] = useState("");
+  const [, forceUpdate] = useState(0);
 
   const fetchCategories = async () => {
     try {
@@ -21,6 +22,7 @@ const EmotionCategoryManager = ({ selectedModelId , refreshTrigger, onRefresh })
 
   useEffect(() => {
     fetchCategories();
+    forceUpdate((prev) => prev + 1); 
   }, [selectedModelId, refreshTrigger]);
 
   const handleAddCategory = async () => {
