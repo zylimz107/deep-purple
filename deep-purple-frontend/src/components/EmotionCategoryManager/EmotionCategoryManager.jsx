@@ -77,7 +77,9 @@ const EmotionCategoryManager = ({ selectedModelId , refreshTrigger, onRefresh })
             <li key={category.id} className="flex justify-between items-center">
               <strong>{category.emotion}</strong>
                 <Button
+                  className="my-1"
                   variant="destructive"
+                  size="sm"
                   onClick={() => handleDeleteCategory(category.id)}
                   >
                   Delete

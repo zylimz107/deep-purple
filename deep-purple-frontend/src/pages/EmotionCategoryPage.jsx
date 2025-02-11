@@ -40,7 +40,8 @@ const EmotionCategoryPage = () => {
       <h1 className="text-2xl font-bold text-center">Emotion Model Manager</h1>
       <div className="flex items-stretch">
         {/* Model Management Component */}
-        <ModelManagement refreshModels={fetchModels} />
+        <ModelManagement refreshModels={fetchModels} onRefresh={() => window.location.reload()}
+ />
 
         <div>
           {/* Select Model */}
@@ -87,14 +88,14 @@ const EmotionCategoryPage = () => {
           {selectedModel && (
             <EmotionCategoryManager selectedModelId={selectedModel.id}
             refreshTrigger={refreshEmotionCategory}
-            onRefresh={() => setRefreshEmotionCategory((prev) => prev + 1)} />
+            onRefresh={() => window.location.reload()} />
           )}
 
           {/* Word-Emotion Manager */}
           {selectedModel && (
             <WordEmotionManager selectedModelId={selectedModel.id} 
             refreshTrigger={refreshWordEmotion}
-            onRefresh={() => setRefreshWordEmotion((prev) => prev + 1)}/>
+            onRefresh={() => window.location.reload()}/>
           )}
         </div>
       </div>
