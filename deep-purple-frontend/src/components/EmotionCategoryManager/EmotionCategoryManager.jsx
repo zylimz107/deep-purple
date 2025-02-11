@@ -41,8 +41,10 @@ const EmotionCategoryManager = ({ selectedModelId , refreshTrigger, onRefresh })
 
   const handleDeleteCategory = async (id) => {
     if (!window.confirm("Are you sure you want to delete this category?")) return;
+    console.log("Deleting category with ID:", id);
       try {
         await deleteCategory(id);
+        console.log("Successfully deleted category:", id); 
         fetchCategories();
         onRefresh(); // <== Notify parent to refresh
       } catch (error) {

@@ -15,6 +15,7 @@ const WordEmotionManager = ({ selectedModelId, refreshTrigger, onRefresh }) => {
   const fetchAssociations = async () => {
     try {
       const response = await getAssociationsForModel(selectedModelId);
+      console.log("Fetched associations:", response.data);
       setAssociations(response.data);
     } catch (error) {
       console.error("Error fetching associations:", error);
