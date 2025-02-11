@@ -16,8 +16,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 const EmotionCategoryPage = () => {
   const [models, setModels] = useState([]);
   const [selectedModel, setSelectedModel] = useState(null);
-  const [refreshWordEmotion, setRefreshWordEmotion] = useState(0);
-  const [refreshEmotionCategory, setRefreshEmotionCategory] = useState(0);
+  const [refreshTrigger, setRefreshTrigger] = useState(0); 
 
   // Fetch models from the backend
   const fetchModels = async () => {
@@ -40,8 +39,10 @@ const EmotionCategoryPage = () => {
       <h1 className="text-2xl font-bold text-center">Emotion Model Manager</h1>
       <div className="flex items-stretch">
         {/* Model Management Component */}
-        <ModelManagement refreshModels={fetchModels} onRefresh={() => window.location.reload()}
- />
+        <ModelManagement 
+          refreshModels={fetchModels}             
+          refreshTrigger={refreshTrigger}
+          onRefresh={() => setRefreshTrigger((prev) => prev + 1)}  />
 
         <div>
           {/* Select Model */}
@@ -55,8 +56,7 @@ const EmotionCategoryPage = () => {
                 onValueChange={(modelId) => {
                   const model = models.find((model) => model.id === modelId);
                   setSelectedModel(model);
-                  setRefreshWordEmotion((prev) => prev + 1);
-                  setRefreshEmotionCategory((prev) => prev + 1);
+                  setRefreshTrigger((prev) => prev + 1);
                 }}
               >
                 <SelectTrigger className="w-[500px]">
@@ -87,15 +87,15 @@ const EmotionCategoryPage = () => {
           {/* Emotion Category Manager */}
           {selectedModel && (
             <EmotionCategoryManager selectedModelId={selectedModel.id}
-            refreshTrigger={refreshEmotionCategory}
-            onRefresh={() => window.location.reload()} />
+            refreshTrigger={refreshTrigger}
+            onRefresh={() => setRefreshTrigger((prev) => prev + 1)} />
           )}
 
           {/* Word-Emotion Manager */}
           {selectedModel && (
             <WordEmotionManager selectedModelId={selectedModel.id} 
-            refreshTrigger={refreshWordEmotion}
-            onRefresh={() => window.location.reload()}/>
+            refreshTrigger={refreshTrigger}
+            onRefresh={() => setRefreshTrigger((prev) => prev + 1)}/>
           )}
         </div>
       </div>

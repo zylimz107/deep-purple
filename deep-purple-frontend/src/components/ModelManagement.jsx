@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
-const ModelManagement = ({ refreshModels }) => {
+const ModelManagement = ({ refreshModels, refreshTrigger, onRefresh  }) => {
   const [models, setModels] = useState([]); // Manage models in this component
   const [newModelName, setNewModelName] = useState("");
 
@@ -30,7 +30,8 @@ const ModelManagement = ({ refreshModels }) => {
       await createModel(newModelName);
       setNewModelName("");
       fetchModels(); // Refresh the list of models after adding a new model
-      refreshModels(); // Optionally call the parent function to update any parent state
+      refreshModels();
+      onRefresh(); // Optionally call the parent function to update any parent state
     } catch (error) {
       console.error("Error creating model:", error);
       alert(error.response?.data?.message || "Failed to create model");
@@ -43,7 +44,8 @@ const ModelManagement = ({ refreshModels }) => {
     try {
       await deleteModel(id);
       fetchModels(); // Refresh the list of models after deletion
-      refreshModels(); // Optionally call the parent function to update any parent state
+      refreshModels(); 
+      onRefresh(); //  call the parent function to update any parent state
     } catch (error) {
       console.error("Error deleting model:", error);
       alert("Failed to delete model");
@@ -53,7 +55,7 @@ const ModelManagement = ({ refreshModels }) => {
   // Fetch models on component mount
   useEffect(() => {
     fetchModels();
-  }, []);
+  }, [refreshTrigger]);
 
   return (
     <div className="w-[500px]">
