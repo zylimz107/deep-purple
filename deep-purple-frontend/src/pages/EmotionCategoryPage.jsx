@@ -16,6 +16,8 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 const EmotionCategoryPage = () => {
   const [models, setModels] = useState([]);
   const [selectedModel, setSelectedModel] = useState(null);
+  const [refreshWordEmotion, setRefreshWordEmotion] = useState(0);
+  const [refreshEmotionCategory, setRefreshEmotionCategory] = useState(0);
 
   // Fetch models from the backend
   const fetchModels = async () => {
@@ -52,6 +54,8 @@ const EmotionCategoryPage = () => {
                 onValueChange={(modelId) => {
                   const model = models.find((model) => model.id === modelId);
                   setSelectedModel(model);
+                  setRefreshWordEmotion((prev) => prev + 1);
+                  setRefreshEmotionCategory((prev) => prev + 1);
                 }}
               >
                 <SelectTrigger className="w-[500px]">
@@ -81,12 +85,16 @@ const EmotionCategoryPage = () => {
 
           {/* Emotion Category Manager */}
           {selectedModel && (
-            <EmotionCategoryManager selectedModelId={selectedModel.id} />
+            <EmotionCategoryManager selectedModelId={selectedModel.id}
+            refreshTrigger={refreshEmotionCategory}
+            onRefresh={() => setRefreshEmotionCategory((prev) => prev + 1)} />
           )}
 
           {/* Word-Emotion Manager */}
           {selectedModel && (
-            <WordEmotionManager selectedModelId={selectedModel.id} />
+            <WordEmotionManager selectedModelId={selectedModel.id} 
+            refreshTrigger={refreshWordEmotion}
+            onRefresh={() => setRefreshWordEmotion((prev) => prev + 1)}/>
           )}
         </div>
       </div>

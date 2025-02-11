@@ -16,6 +16,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getAllModels } from "@/api";
 import { uploadFile, saveCommunication, uploadBatchFiles } from "@/api";
+import { ClipLoader } from "react-spinners";
 
 const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) => {
     const [content, setContent] = useState("");
@@ -27,6 +28,7 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
     const [errors, setErrors] = useState({});
     const [pdfUrl, setPdfUrl] = useState("");
     const [loading, setLoading] = useState(false);
+    const Spinner = () => <ClipLoader size={20} color="#ffffff" />;
 
     useEffect(() => {
         const fetchModels = async () => {
@@ -144,30 +146,49 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
                                 placeholder="Enter communication content"
                                 maxLength={1000}
                                 required
+                                disabled={loading}
                             />
                             {errors.content && <p className="text-red-600">{errors.content}</p>}
                         </div>
                     )}
 
                     {operation === "upload" && (
-                        <div>
-                            <Label htmlFor="file">Select File</Label>
-                            <Input type="file" id="file" onChange={(e) => setFile(e.target.files[0])} required />
-                            {errors.file && <p className="text-red-600">{errors.file}</p>}
-                        </div>
+                    <div>
+                        <Label htmlFor="file">Select File</Label>
+                        <Input
+                            type="file"
+                            id="file"
+                            onChange={(e) => setFile(e.target.files[0])}
+                            required
+                            disabled={loading} // Disable during loading
+                        />
+                        {errors.file && <p className="text-red-600">{errors.file}</p>}
+                    </div>
                     )}
 
                     {operation === "batch-upload" && (
-                        <div>
-                            <Label htmlFor="files">Select Files</Label>
-                            <Input type="file" id="files" multiple onChange={handleFileChange} required />
-                            {errors.files && <p className="text-red-600">{errors.files}</p>}
-                        </div>
+                    <div>
+                        <Label htmlFor="files">Select Files</Label>
+                        <Input
+                            type="file"
+                            id="files"
+                            multiple
+                            onChange={handleFileChange}
+                            required
+                            disabled={loading} // Disable during loading
+                        />
+                        {errors.files && <p className="text-red-600">{errors.files}</p>}
+                    </div>
                     )}
 
                     <div>
                         <Label htmlFor="operation">Operation</Label>
-                        <Select id="operation" value={operation} onValueChange={setOperation}>
+                        <Select
+                        id="operation"
+                        value={operation}
+                        onValueChange={setOperation}
+                        disabled={loading} // Disable during loading
+                        >
                             <SelectTrigger className="w-[500px]">
                                 <SelectValue placeholder="Select operation" />
                             </SelectTrigger>
@@ -184,7 +205,7 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
 
                     <div>
                         <Label htmlFor="modelName">Model Name</Label>
-                        <Select id="modelName" value={modelName} onValueChange={setModelName}>
+                        <Select id="modelName" value={modelName} onValueChange={setModelName} disabled={loading}>
                             <SelectTrigger className="w-[500px]">
                                 <SelectValue placeholder="Select model" />
                             </SelectTrigger>
@@ -211,9 +232,16 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
                     </div>
 
                     <Separator className="w-[500px] my-4" />
-                    <Button type="submit" className="w-[500px]">
-                        Submit
-                    </Button>
+                    <Button type="submit" className="w-[500px]" disabled={loading}>
+                    {loading ? (
+                        <div className="flex items-center gap-2">
+                            <Spinner /> {/* Add a spinner component here */}
+                            Loading...
+                        </div>
+                    ) : (
+                        "Submit"
+                    )}
+                </Button>
 
                     {/* ✅ Download button for PDF */}
                     {pdfUrl && (

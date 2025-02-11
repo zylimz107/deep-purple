@@ -44,7 +44,7 @@ const LandingPage = () => {
     <div className="flex flex-col items-center">
       {/* Hero Section with Background Image */}
       <div className="flex flex-col justify-center items-center text-slate-100">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="text-center">
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="text-center">
           <h1 className="text-6xl font-bold mb-4">DeepPurple</h1>
           <p className="text-xl mb-8">Uncover the emotions behind your text with AI-powered analysis.</p>
         </motion.div>
@@ -52,7 +52,7 @@ const LandingPage = () => {
 
       {/* Infographics Section */}
       <div className="w-full pt-12">
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="text-center">
+      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="text-center">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-slate-100 text-center mb-12">Why Choose DeepPurple Analysis?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -82,7 +82,7 @@ const LandingPage = () => {
       {/* Communication Form and Results Section */}
       <div className="w-full max-w-6xl mx-auto px-4 py-20">
         {showForm && (
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
             <CommunicationForm
               setResponse={setResponse}
               setDeleteNotification={setDeleteNotification}
@@ -93,7 +93,7 @@ const LandingPage = () => {
         )}
 
         {response && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
             <Card className="mb-5 w-full p-10">
               <h3 className="text-2xl font-semibold">Analysis Results:</h3>
               {response.error ? (

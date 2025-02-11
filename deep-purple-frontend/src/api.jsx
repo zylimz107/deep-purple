@@ -35,7 +35,7 @@ export const deleteModel = (id) =>
 export const getAssociationsForModel = async (modelId) => {
   return await axios.get(`${API_BASE_URL}/word-associations/${modelId}`);
 };
-export const getAllEmotionCategories = () => axios.get(`${API_BASE_URL}/emotion-categories`);
+
 export const createAssociation = (word, emotionCategoryId) =>
   axios.post(`${API_BASE_URL}/word-association`, null, {
     params: { word, emotionCategoryId },

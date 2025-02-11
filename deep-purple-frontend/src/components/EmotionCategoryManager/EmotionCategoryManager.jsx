@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { createCategory, getCategoriesByModel } from "@/api";
+import { createCategory, getCategoriesByModel, deleteCategory } from "@/api";
 import { Input } from "@/components/ui/input"; // Replace with the correct shadcn Input component import
 import { Button } from "@/components/ui/button"; // Replace with the correct shadcn Button component import
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Replace with the correct Card imports
 
 
-const EmotionCategoryManager = ({ selectedModelId }) => {
+const EmotionCategoryManager = ({ selectedModelId , refreshTrigger, onRefresh }) => {
   const [categories, setCategories] = useState([]);
   const [newCategoryName, setNewCategoryName] = useState("");
 
@@ -29,14 +29,25 @@ const EmotionCategoryManager = ({ selectedModelId }) => {
       await createCategory(selectedModelId, newCategoryName);
       setNewCategoryName("");
       fetchCategories();
+      onRefresh(); // <== Notify parent to refresh
     } catch (error) {
       console.error("Error adding category:", error);
     }
   };
 
+  const handleDeleteCategory = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this category?")) return;
+      try {
+        await deleteCategory(id);
+        onRefresh(); // <== Notify parent to refresh
+      } catch (error) {
+        console.error("Error deleting category:", error);
+      }
+    };
+
   useEffect(() => {
     fetchCategories();
-  }, [selectedModelId]);
+  }, [selectedModelId, refreshTrigger]);
 
   return (
     <Card className="p-4 shadow-lg">
@@ -60,6 +71,14 @@ const EmotionCategoryManager = ({ selectedModelId }) => {
           {categories.map((category) => (
             <li key={category.id} className="py-2 px-3">
               {category.emotion}
+                <Button
+                  className="my-1"
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => handleDeleteCategory(category.id)}
+                  >
+                  Delete
+                  </Button>
             </li>
           ))}
         </ul>

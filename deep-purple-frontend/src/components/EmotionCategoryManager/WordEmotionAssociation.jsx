@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-const WordEmotionManager = ({ selectedModelId }) => {
+const WordEmotionManager = ({ selectedModelId, refreshTrigger, onRefresh }) => {
   const [associations, setAssociations] = useState([]);
   const [word, setWord] = useState("");
   const [categories, setCategories] = useState([]);
@@ -31,12 +31,13 @@ const WordEmotionManager = ({ selectedModelId }) => {
     }
   };
 
+  // Fetch data when model changes or refresh is triggered
   useEffect(() => {
     if (selectedModelId) {
       fetchAssociations();
       fetchCategories();
     }
-  }, [selectedModelId]);
+  }, [selectedModelId, refreshTrigger]); // <== Triggers refresh
 
   // Handle adding a word-emotion association
   const handleAddAssociation = async () => {
@@ -50,10 +51,10 @@ const WordEmotionManager = ({ selectedModelId }) => {
     }
 
     try {
-      await createAssociation(word, selectedCategoryId); // Pass word and selectedCategoryId directly
-      setWord(""); // Clear word input field
-      setSelectedCategoryId(""); // Clear selected category
-      fetchAssociations(); // Refresh list
+      await createAssociation(word, selectedCategoryId);
+      setWord(""); 
+      setSelectedCategoryId(""); 
+      onRefresh(); // <== Notify parent to refresh
     } catch (error) {
       console.error("Error creating association:", error);
     }
@@ -64,7 +65,7 @@ const WordEmotionManager = ({ selectedModelId }) => {
     if (!window.confirm("Are you sure you want to delete this association?")) return;
     try {
       await deleteAssociation(id);
-      fetchAssociations(); // Refresh list
+      onRefresh(); // <== Notify parent to refresh
     } catch (error) {
       console.error("Error deleting association:", error);
     }
@@ -113,27 +114,26 @@ const WordEmotionManager = ({ selectedModelId }) => {
           </div>
 
           <ul className="bg-slate-100 p-2 rounded divide-y divide-slate-700">
-          {associations.length > 0 ? (
-            associations.map((assoc) => (
-              <li key={assoc.id} className="flex justify-between items-center ">
-              <span>
-              {assoc.word} - {assoc.emotionCategory ? assoc.emotionCategory.emotion : 'Unknown Emotion'}
-             </span>
-             <Button
-                className="my-1"
-             variant="destructive"
-             size="sm"
-             onClick={() => handleDeleteAssociation(assoc.id)}
-           >
-          Delete
-        </Button>
-      </li>
-    ))
-  ) : (
-    <p>No associations available.</p>
-  )}
-</ul>
-
+            {associations.length > 0 ? (
+              associations.map((assoc) => (
+                <li key={assoc.id} className="flex justify-between items-center ">
+                  <span>
+                    {assoc.word} - {assoc.emotionCategory ? assoc.emotionCategory.emotion : 'Unknown Emotion'}
+                  </span>
+                  <Button
+                    className="my-1"
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => handleDeleteAssociation(assoc.id)}
+                  >
+                    Delete
+                  </Button>
+                </li>
+              ))
+            ) : (
+              <p>No associations available.</p>
+            )}
+          </ul>
         </div>
       </CardContent>
     </Card>
@@ -141,3 +141,4 @@ const WordEmotionManager = ({ selectedModelId }) => {
 };
 
 export default WordEmotionManager;
+
