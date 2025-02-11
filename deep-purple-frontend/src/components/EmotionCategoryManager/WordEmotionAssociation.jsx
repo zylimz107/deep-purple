@@ -121,7 +121,7 @@ const WordEmotionManager = ({ selectedModelId, refreshTrigger, onRefresh }) => {
               associations.map((assoc) => (
                 <li key={assoc.id} className="flex justify-between items-center ">
                   <span>
-                    {assoc.word} - {assoc.emotionCategory}
+                    {assoc.word} - {assoc.emotionCategory ? assoc.emotionCategory.emotion : 'Unknown Emotion'}
                   </span>
                   <Button
                     className="my-1"
