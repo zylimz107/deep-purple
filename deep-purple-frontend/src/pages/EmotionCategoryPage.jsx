@@ -86,7 +86,9 @@ const EmotionCategoryPage = () => {
 
           {/* Emotion Category Manager */}
           {selectedModel && (
-            <EmotionCategoryManager selectedModelId={selectedModel.id}
+            <EmotionCategoryManager 
+            key={selectedModel.id + refreshTrigger}
+            selectedModelId={selectedModel.id}
             refreshTrigger={refreshTrigger}
             onRefresh={() => setRefreshTrigger((prev) => prev + 1)} />
           )}
