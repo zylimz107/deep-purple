@@ -9,11 +9,10 @@ import AnalysisPage from "@/pages/AnalysisPage";
 import EmotionCategoryPage from "@/pages/EmotionCategoryPage";
 import UserDashboard from "@/pages/UserDashboard";
 import Layout from "@/components/layout";
-import CommunicationsPage from "./pages/communicationsPage";
+import CommunicationsPage from "@/pages/communicationsPage";
 
 function App() {
   const auth = useAuth();
-  const isLocalDevelopment = true;
 
   const signOutRedirect = () => {
     const clientId = "2flkekbciug2qi1uockcmi16d2"; // Replace with your actual App Client ID
@@ -34,7 +33,7 @@ function App() {
     return <div>Error: {auth.error.message}</div>;
   }
 
-  if (!auth.isAuthenticated && !isLocalDevelopment) {
+  if (!auth.isAuthenticated) {
     return (
       <div className="w-full h-full bg-[url('@/svg/purpleBG.jpg')] bg-cover flex flex-col items-center justify-center min-h-screen relative">
         <div className="fixed top-4 left-1/2 transform -translate-x-1/2">
