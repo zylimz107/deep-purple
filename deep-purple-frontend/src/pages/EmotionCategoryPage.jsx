@@ -37,7 +37,7 @@ const EmotionCategoryPage = () => {
   return (
     <div className="w-full min-h-screen p-4 space-y-8">
       <h1 className="text-2xl font-bold text-center">Emotion Model Manager</h1>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 h-full">
         {/* Model Management Component */}
         <ModelManagement 
           refreshModels={fetchModels}             
