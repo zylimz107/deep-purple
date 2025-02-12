@@ -243,14 +243,18 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
                     )}
                 </Button>
 
-                    {/* ✅ Download button for PDF */}
                     {pdfUrl && (
-                        <div className="mt-4">
-                            <a href={pdfUrl} download className="text-blue-600 underline">
-                                Download Processed PDF
+                        <div className="mt-6 flex justify-center">
+                            <a 
+                                href={pdfUrl} 
+                                download 
+                                className="bg-cyan-700 hover:bg-cyan-800 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300"
+                            >
+                                📥 Download Processed PDF
                             </a>
                         </div>
                     )}
+
                 </form>
             </CardContent>
         </Card>

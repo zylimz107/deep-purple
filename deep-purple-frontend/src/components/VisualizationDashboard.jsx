@@ -138,7 +138,7 @@ const VisualizationDashboard = ({ communicationsData }) => {
     };
 
     return (
-        <div className="p-4 space-y-8">
+        <div className="w-full h-full p-4 space-y-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Combined Emotions Bar Chart */}
                 <div className="bg-white p-4 rounded-lg shadow">
