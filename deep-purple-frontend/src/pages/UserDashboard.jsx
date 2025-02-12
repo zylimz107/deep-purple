@@ -1,29 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import VisualizationDashboard from "@/components/VisualizationDashboard";
-import { Button } from "@/components/ui/button";
 import { getAllCommunications } from "@/api";
 
 const UserDashboard = () => {
     const [communicationsData, setCommunicationsData] = useState(null);
 
-    const handleGetAll = async () => {
-        try {
-            const res = await getAllCommunications();
-            setCommunicationsData(res.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await getAllCommunications();
+                setCommunicationsData(res.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
-        <div>
-            <Button 
-                variant="outline" 
-                className="border-purple-800 text-purple-800" 
-                onClick={handleGetAll}
-            >
-                Fetch Communications
-            </Button>
+        <div className="w-full h-screen flex">
             <VisualizationDashboard communicationsData={communicationsData} />
         </div>
     );
