@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import CommunicationForm from "@/components/CommunicationForm/CommunicationForm";
-import { PieChart, Pie, Tooltip, Cell } from "recharts";
+import { PieChart, Pie, Tooltip } from "recharts";
 import Icon1 from '@/svg/icon1.png';
 import Icon2 from '@/svg/icon2.png';
 import Icon3 from '@/svg/icon3.png';
@@ -22,8 +22,6 @@ const LandingPage = () => {
       return () => clearTimeout(timer);
     }
   }, [deleteNotification, clearNotification]);
-
-  const colors = ["#6D28D9", "#A78BFA", "#C4B5FD", "#D8B4FE"];
 
   // Prepare pie chart data from response
   const pieChartData = response ? [
