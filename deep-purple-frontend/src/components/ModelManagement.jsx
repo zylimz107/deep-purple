@@ -58,7 +58,7 @@ const ModelManagement = ({ refreshModels, refreshTrigger, onRefresh  }) => {
   }, [refreshTrigger]);
 
   return (
-    <div className="w-[500px]">
+    <div className="w-full">
       <Card className="p-4 shadow-md">
         <CardHeader>
           <CardTitle>Add a New Model</CardTitle>
@@ -76,7 +76,7 @@ const ModelManagement = ({ refreshModels, refreshTrigger, onRefresh  }) => {
               Add
             </Button>
           </div>
-          <Separator className="w-[420px] my-2" />
+          <Separator className="w-full my-2" />
           <div>          
             {models.length > 0 ? (
             <ul className="space-y-3">

@@ -1,60 +1,61 @@
 .App {
-  text-align: center;
-}
-
-/* For small screens like phones */
-@media (max-width: 600px) {
-  .container {
-      padding: 10px;
+    text-align: center;
   }
-
-  .chart {
-      max-width: 100%; /* Take full width on small screens */
+  
+  /* For small screens like phones */
+  @media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+  
+    .chart {
+        max-width: 100%; /* Take full width on small screens */
+    }
+  
+    h3 {
+        font-size: clamp(16px, 4vw, 18px); /* Scales smoothly */
+    }
+  
+    .text-center {
+        font-size: clamp(12px, 3.5vw, 14px);
+    }
   }
-
-  h3 {
-      font-size: 18px;
+  
+  /* For medium screens like tablets */
+  @media (min-width: 601px) and (max-width: 1024px) {
+    .container {
+        padding: 12px; /* Slightly reduced jump */
+    }
+  
+    .chart {
+        max-width: 85%; /* More flexible width */
+    }
+  
+    h3 {
+        font-size: clamp(18px, 3vw, 20px);
+    }
+  
+    .text-center {
+        font-size: clamp(14px, 2.5vw, 16px);
+    }
   }
-
-  .text-center {
-      font-size: 14px;
+  
+  /* For large screens like desktops */
+  @media (min-width: 1025px) {
+    .container {
+        padding: 20px; /* Reduced jump from medium to large */
+    }
+  
+    .chart {
+        max-width: 90%; /* Uses percentage instead of fixed 600px */
+    }
+  
+    h3 {
+        font-size: clamp(20px, 2vw, 24px);
+    }
+  
+    .text-center {
+        font-size: clamp(16px, 1.8vw, 18px);
+    }
   }
-}
-
-/* For medium screens like tablets */
-@media (min-width: 601px) and (max-width: 1024px) {
-  .container {
-      padding: 15px;
-  }
-
-  h3 {
-      font-size: 20px;
-  }
-
-  .chart {
-      max-width: 80%; /* Slightly reduced width for medium screens */
-  }
-
-  .text-center {
-      font-size: 16px;
-  }
-}
-
-/* For large screens like desktops */
-@media (min-width: 1025px) {
-  .container {
-      padding: 30px;
-  }
-
-  h3 {
-      font-size: 24px;
-  }
-
-  .chart {
-      max-width: 600px; /* Limit chart width for better visuals */
-  }
-
-  .text-center {
-      font-size: 18px;
-  }
-}
+  

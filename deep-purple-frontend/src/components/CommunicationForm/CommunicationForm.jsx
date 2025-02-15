@@ -132,9 +132,9 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
     };
 
     return (
-        <Card className="p-4">
+        <Card className="p-4 w-full">
             <CardContent>
-                <form onSubmit={handleSubmit} className="w-[1000px] space-y-4">
+                <form onSubmit={handleSubmit} className="w-full space-y-4">
 
                     {operation === "save" && (
                         <div>
@@ -189,7 +189,7 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
                         onValueChange={setOperation}
                         disabled={loading} // Disable during loading
                         >
-                            <SelectTrigger className="w-[500px]">
+                            <SelectTrigger className="w-2/4">
                                 <SelectValue placeholder="Select operation" />
                             </SelectTrigger>
                             <SelectContent>
@@ -206,7 +206,7 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
                     <div>
                         <Label htmlFor="modelName">Model Name</Label>
                         <Select id="modelName" value={modelName} onValueChange={setModelName} disabled={loading}>
-                            <SelectTrigger className="w-[500px]">
+                            <SelectTrigger className="w-2/4">
                                 <SelectValue placeholder="Select model" />
                             </SelectTrigger>
                             <SelectContent>
@@ -231,8 +231,8 @@ const CommunicationForm = ({ setResponse, clearNotification, clearResponse }) =>
                         {errors.modelName && <p className="text-red-600">{errors.modelName}</p>}
                     </div>
 
-                    <Separator className="w-[500px] my-4" />
-                    <Button type="submit" className="w-[500px]" disabled={loading}>
+                    <Separator className="w-full my-4" />
+                    <Button type="submit" className="w-full" disabled={loading}>
                     {loading ? (
                         <div className="flex items-center gap-2">
                             <Spinner /> {/* Add a spinner component here */}

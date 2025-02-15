@@ -93,7 +93,7 @@ const LandingPage = () => {
         )}
 
         {response && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5 }}>
             <Card className="mb-5 w-full p-10">
               <h3 className="text-2xl font-semibold">Analysis Results:</h3>
               {response.error ? (

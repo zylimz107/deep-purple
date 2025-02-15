@@ -75,7 +75,7 @@ const WordEmotionManager = ({ selectedModelId, refreshTrigger, onRefresh }) => {
   };
 
   return (
-    <Card className="p-4 shadow-lg">
+    <Card className="p-4 shadow-lg w-full">
       <CardHeader>
         <CardTitle>Manage Word-Emotion Associations</CardTitle>
       </CardHeader>
@@ -92,7 +92,7 @@ const WordEmotionManager = ({ selectedModelId, refreshTrigger, onRefresh }) => {
             <Select
               value={selectedCategoryId}
               onValueChange={setSelectedCategoryId}
-              className="w-[200px]"
+              className="w-full"
             >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select Emotion Category" />

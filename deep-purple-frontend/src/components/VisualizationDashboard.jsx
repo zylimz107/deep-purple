@@ -138,76 +138,78 @@ const VisualizationDashboard = ({ communicationsData }) => {
     };
 
     return (
-        <div className="w-full min-h-screen p-4 space-y-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
-            {/* Combined Emotions Bar Chart */}
-            <div className="bg-white p-4 rounded-lg shadow h-full flex flex-col">
-              <h3 className="text-xl font-semibold text-center mb-4">Emotion Distribution</h3>
-              <ResponsiveContainer width="100%" height={400}>
-                <BarChart data={combinedData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <RechartsTooltip />
-                  <RechartsLegend />
-                  <Bar dataKey="Primary" fill="hsl(var(--chart-1))" />
-                  <Bar dataKey="Secondary" fill="hsl(var(--chart-2))" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-      
-            {/* Radar Chart */}
-            <div className="bg-white p-4 rounded-lg shadow h-full flex flex-col">
-              <h3 className="text-xl font-semibold text-center mb-4">Emotion Intensity</h3>
-              <div className="h-full flex items-center justify-center">
-                <Radar data={radarData} options={radarOptions} />
-              </div>
-            </div>
-      
-            {/* Model Comparison */}
-            <div className="bg-white p-4 rounded-lg shadow h-full flex flex-col">
-              <h3 className="text-xl font-semibold text-center mb-4">Model Performance</h3>
-              <ResponsiveContainer width="100%" height={400}>
-                <ScatterChart>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="count" name="Analysis Count" />
-                  <YAxis dataKey="confidence" name="Confidence" domain={[60, 100]} />
-                  <ZAxis range={[100, 100]} />
-                  <RechartsTooltip cursor={{ strokeDasharray: "3 3" }} />
-                  <RechartsLegend />
-                  <Scatter name="Models" data={modelComparisonData} fill="#8884d8" />
-                </ScatterChart>
-              </ResponsiveContainer>
-            </div>
-      
-            {/* Confidence Timeline */}
-            <div className="bg-white p-4 rounded-lg shadow h-full flex flex-col">
-              <h3 className="text-xl font-semibold text-center mb-4">Confidence Timeline</h3>
-              <ResponsiveContainer width="100%" height={400}>
-                <LineChart data={timelineData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis
-                    tick={{ fontSize: 10 }}
-                    dataKey="timestamp"
-                    angle={-45}
-                    textAnchor="end"
-                    height={80}
-                  />
-                  <YAxis domain={[60, 100]} />
-                  <RechartsTooltip />
-                  <RechartsLegend />
-                  <Line type="monotone" dataKey="confidence" stroke="#8884d8" name="Confidence Rating" />
-                </LineChart>
-              </ResponsiveContainer>
+      <div className="w-full min-h-screen p-4 flex flex-col space-y-8">
+        {/* Charts Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 flex-1">
+          {/* Emotion Distribution */}
+          <div className="bg-white p-4 rounded-lg shadow h-full flex flex-col">
+            <h3 className="text-xl font-semibold text-center mb-4">Emotion Distribution</h3>
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={combinedData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <RechartsTooltip />
+                <RechartsLegend />
+                <Bar dataKey="Primary" fill="hsl(var(--chart-1))" />
+                <Bar dataKey="Secondary" fill="hsl(var(--chart-2))" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+    
+          {/* Radar Chart */}
+          <div className="bg-white p-4 rounded-lg shadow h-full flex flex-col">
+            <h3 className="text-xl font-semibold text-center mb-4">Emotion Intensity</h3>
+            <div className="h-full flex items-center justify-center">
+              <Radar data={radarData} options={radarOptions} />
             </div>
           </div>
-      
-          {/* Total Communications Count */}
-          <div className="text-center text-lg font-medium">
-            Total Communications: {communicationsData.length}
+    
+          {/* Model Comparison */}
+          <div className="bg-white p-4 rounded-lg shadow h-full flex flex-col">
+            <h3 className="text-xl font-semibold text-center mb-4">Model Performance</h3>
+            <ResponsiveContainer width="100%" height={400}>
+              <ScatterChart>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="count" name="Analysis Count" />
+                <YAxis dataKey="confidence" name="Confidence" domain={[60, 100]} />
+                <ZAxis range={[100, 100]} />
+                <RechartsTooltip cursor={{ strokeDasharray: "3 3" }} />
+                <RechartsLegend />
+                <Scatter name="Models" data={modelComparisonData} fill="#8884d8" />
+              </ScatterChart>
+            </ResponsiveContainer>
+          </div>
+    
+          {/* Confidence Timeline */}
+          <div className="bg-white p-4 rounded-lg shadow h-full flex flex-col">
+            <h3 className="text-xl font-semibold text-center mb-4">Confidence Timeline</h3>
+            <ResponsiveContainer width="100%" height={400}>
+              <LineChart data={timelineData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  tick={{ fontSize: 10 }}
+                  dataKey="timestamp"
+                  angle={-45}
+                  textAnchor="end"
+                  height={80}
+                />
+                <YAxis domain={[60, 100]} />
+                <RechartsTooltip />
+                <RechartsLegend />
+                <Line type="monotone" dataKey="confidence" stroke="#8884d8" name="Confidence Rating" />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </div>
-      );
+    
+        {/* Move Total Communications to the Bottom */}
+        <div className="text-center text-lg font-medium mt-auto">
+          Total Communications: {communicationsData.length}
+        </div>
+      </div>
+    );
+    
       
 };
 

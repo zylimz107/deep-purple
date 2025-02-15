@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card } from "@/components/ui/card";
 import CommunicationForm from "@/components/CommunicationForm/CommunicationForm";
-import { Pie, PieChart, Tooltip } from "recharts"; // Import necessary parts of recharts
+import { Pie, PieChart, Tooltip } from "recharts";
+import { motion } from "framer-motion"; // Import necessary parts of recharts
 
 const AnalysisPage = () => {
   const [response, setResponse] = useState(null);
@@ -48,6 +49,7 @@ const AnalysisPage = () => {
       />
 
       {response && (
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5 }}>
         <Card className="mb-5">
           <h3 className="text-2xl font-semibold">Analysis Results:</h3>
           {response.error ? (
@@ -93,6 +95,7 @@ const AnalysisPage = () => {
             </>
           )}
         </Card>
+        </motion.div>
       )}
 
       {deleteNotification && (

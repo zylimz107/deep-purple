@@ -57,7 +57,7 @@ const EmotionCategoryManager = ({ selectedModelId , refreshTrigger, onRefresh })
 
 
   return (
-    <Card className="p-4 shadow-lg">
+    <Card className="p-4 shadow-lg w-full h-auto">
       <CardHeader>
         <CardTitle className="text-xl font-semibold">Manage Emotion Categories</CardTitle>
       </CardHeader>

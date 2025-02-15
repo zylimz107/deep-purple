@@ -60,12 +60,12 @@ const CommunicationsPage = () => {
                         value={idToDelete}
                         onChange={(e) => setIdToDelete(e.target.value)}
                         placeholder="Enter ID"
-                        className="w-[500px]"
+                        className="w-2/4"
                     />
                 </div>
                 <Button
                     onClick={() => handleDelete(idToDelete)}
-                    className="w-[500px]"
+                    className="w-2/4"
                     disabled={!idToDelete}
                 >
                     Delete Communication

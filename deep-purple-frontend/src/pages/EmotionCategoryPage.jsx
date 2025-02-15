@@ -59,7 +59,7 @@ const EmotionCategoryPage = () => {
                   setRefreshTrigger((prev) => prev + 1);
                 }}
               >
-                <SelectTrigger className="w-[500px]">
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="Choose a model" />
                 </SelectTrigger>
                 <SelectContent>
