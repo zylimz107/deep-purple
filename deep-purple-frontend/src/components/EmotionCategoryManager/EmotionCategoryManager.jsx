@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { createCategory, getCategoriesByModel, deleteCategory } from "@/api";
+import useEmotionApi from "@/api";
 import { Input } from "@/components/ui/input"; // Replace with the correct shadcn Input component import
 import { Button } from "@/components/ui/button"; // Replace with the correct shadcn Button component import
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Replace with the correct Card imports
 
 
 const EmotionCategoryManager = ({ selectedModelId , refreshTrigger, onRefresh }) => {
+  const { createCategory, getCategoriesByModel, deleteCategory } = useEmotionApi();
   const [categories, setCategories] = useState([]);
   const [newCategoryName, setNewCategoryName] = useState("");
   const [, forceUpdate] = useState(0);

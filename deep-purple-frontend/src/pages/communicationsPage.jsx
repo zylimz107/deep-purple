@@ -3,9 +3,10 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getAllCommunications, deleteCommunication } from "@/api";
+import useEmotionApi from "@/api";
 
 const CommunicationsPage = () => {
+    const { getAllCommunications, deleteCommunication } = useEmotionApi();
     const [communications, setCommunications] = useState([]);
     const [deleteNotification, setDeleteNotification] = useState('');
     const [idToDelete, setIdToDelete] = useState('');

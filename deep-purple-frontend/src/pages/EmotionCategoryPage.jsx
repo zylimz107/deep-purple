@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ModelManagement from "@/components/ModelManagement";
 import EmotionCategoryManager from "@/components/EmotionCategoryManager/EmotionCategoryManager";
 import WordEmotionManager from "@/components/EmotionCategoryManager/WordEmotionAssociation";
-import { getAllCustomModels } from "@/api";
+import useEmotionApi from "@/api";
 import {
   Select,
   SelectContent,
@@ -14,6 +14,7 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 const EmotionCategoryPage = () => {
+  const { getAllCustomModels } = useEmotionApi();
   const [models, setModels] = useState([]);
   const [selectedModel, setSelectedModel] = useState(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0); 

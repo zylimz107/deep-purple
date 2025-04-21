@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { getAllCustomModels, createModel, deleteModel } from "@/api";
+import useEmotionApi from "@/api";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
 const ModelManagement = ({ refreshModels, refreshTrigger, onRefresh  }) => {
+  const { getAllCustomModels, createModel, deleteModel } = useEmotionApi();
   const [models, setModels] = useState([]); // Manage models in this component
   const [newModelName, setNewModelName] = useState("");
 
