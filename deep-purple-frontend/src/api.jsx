@@ -1,13 +1,13 @@
 import axios from 'axios';
 import useAuthToken from '@/UseAuth';
 
-// const API_BASE_URL = 'https://purpleproj.click/emotion';
-// const API_MOD_URL = 'https://purpleproj.click/models';
-// const API_COM_URL = 'https://purpleproj.click/communications';
+const API_BASE_URL = 'https://purpleproj.click/emotion';
+const API_MOD_URL = 'https://purpleproj.click/models';
+const API_COM_URL = 'https://purpleproj.click/communications';
 
-const API_BASE_URL = "http://localhost:8080/emotion";
-const API_MOD_URL = "http://localhost:8080/models";
-const API_COM_URL = "http://localhost:8080/communications";
+// const API_BASE_URL = "http://localhost:8080/emotion";
+// const API_MOD_URL = "http://localhost:8080/models";
+// const API_COM_URL = "http://localhost:8080/communications";
 
 const useEmotionApi = () => {
   const accessToken = useAuthToken();
