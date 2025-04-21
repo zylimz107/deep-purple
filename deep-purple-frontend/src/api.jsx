@@ -42,9 +42,7 @@ const useEmotionApi = () => {
 
   // Model Functions
   const getAllModels = async () => {
-    return await axios.get(API_MOD_URL, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
+    return await axios.get(API_MOD_URL);
   };
 
   const getAllCustomModels = async () => {
@@ -88,9 +86,7 @@ const useEmotionApi = () => {
 
   // Communication Functions
   const saveCommunication = async (data) => {
-    return await axios.post(API_COM_URL, data, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
+    return await axios.post(API_COM_URL, data); 
   };
 
   const deleteCommunication = async (id) => {
@@ -109,20 +105,18 @@ const useEmotionApi = () => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('modelName', modelName);
-
+  
     return await axios.post(`${API_COM_URL}/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${accessToken}`,
       },
     });
   };
-
+  
   const uploadBatchFiles = async (formData) => {
     return await axios.post(`${API_COM_URL}/batch-upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${accessToken}`,
       },
       responseType: 'blob', // Since the server returns a PDF
     });
